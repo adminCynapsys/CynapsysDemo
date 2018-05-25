@@ -1,6 +1,7 @@
 package de.cynapsys.metier;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,9 +19,9 @@ public class UtilisateurMetierImpl implements UtilisateurMetier {
 	}
 
 	@Override
-	public Utilisateur getUtilisateur(Long id) {
-		
-		return utilisateurRepository.getOne(id);
+	public Optional<Utilisateur> getUtilisateur(Long id) {
+		 
+		return utilisateurRepository.findById(id);
 	}
 
 	@Override
@@ -38,6 +39,12 @@ public class UtilisateurMetierImpl implements UtilisateurMetier {
 	@Override
 	public void deleteUtilisateur(Long id) {
 		utilisateurRepository.deleteById(id);
+	}
+
+	@Override
+	public Utilisateur login(Utilisateur utilisateur) {
+		return utilisateurRepository.findByEmailAndMdp(utilisateur.getEmail() , utilisateur.getMdp()).get(0);
+		
 	}
 
 }

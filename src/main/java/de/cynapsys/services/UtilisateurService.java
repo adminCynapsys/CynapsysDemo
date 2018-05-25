@@ -1,6 +1,7 @@
 package de.cynapsys.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,10 +20,22 @@ import de.cynapsys.metier.UtilisateurMetier;
 public class UtilisateurService {
 	@Autowired
 	private UtilisateurMetier utilisateurMetier;
-	
+
 	@RequestMapping(value = "/utilisateur", method = RequestMethod.GET)
 	public List<Utilisateur> listUtilisateur() {
 		return utilisateurMetier.listUtilisateurs();
+	}
+	
+	@RequestMapping(value = "/utilisateur/{id}", method = RequestMethod.GET)
+	public Optional<Utilisateur> getUtilisateur(@PathVariable Long id) {
+		
+		return utilisateurMetier.getUtilisateur(id);
+	}
+
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public Utilisateur login(@RequestBody Utilisateur u) {
+		
+		return utilisateurMetier.login(u);
 	}
 	
 	@RequestMapping(value = "/utilisateur", method = RequestMethod.POST)
@@ -38,7 +51,7 @@ public class UtilisateurService {
 		return utilisateurMetier.updateUtilisateur(u, id);
 	}
 
-	@RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/utilisateur/{id}", method = RequestMethod.DELETE)
 	public void deleteUtilisateur(@PathVariable("id") Long id) {
 		utilisateurMetier.deleteUtilisateur(id);
 	}
